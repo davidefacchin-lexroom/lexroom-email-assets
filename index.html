@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lexroom × Poste — Anteprima mail a freddo</title>
+  <style>
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background:#0f1424; color:#e8ecf5; }
+    header { padding:28px 24px 18px; border-bottom:1px solid #232b45; }
+    header h1 { margin:0 0 6px; font-size:20px; }
+    header p { margin:0; color:#9aa6c4; font-size:13px; }
+    .toolbar { padding:14px 24px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; border-bottom:1px solid #232b45; position:sticky; top:0; background:#0f1424; z-index:5; }
+    .toolbar span { color:#9aa6c4; font-size:12px; margin-right:4px; }
+    button { background:#1b2440; color:#e8ecf5; border:1px solid #2c3760; border-radius:8px; padding:8px 14px; font-size:13px; cursor:pointer; }
+    button:hover { background:#27325a; }
+    button.active { background:#2E45C5; border-color:#2E45C5; color:#fff; }
+    .grid { display:flex; gap:22px; padding:24px; overflow-x:auto; align-items:flex-start; }
+    .card { flex:0 0 auto; }
+    .card h2 { font-size:13px; font-weight:600; color:#c3cbe4; margin:0 0 10px; text-align:center; }
+    .card .tag { display:block; text-align:center; color:#8B97B8; font-size:11px; margin-bottom:10px; }
+    iframe { width:640px; height:900px; border:1px solid #232b45; border-radius:12px; background:#D7E4E6; }
+    .grid.mobile iframe { width:380px; }
+    .single .card { flex:1 1 auto; margin:0 auto; }
+    .single iframe { width:660px; max-width:100%; height:1100px; }
+    @media (max-width:700px){ iframe { width:92vw; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Lexroom × Poste Italiane — Mail a freddo (set universale)</h1>
+    <p>3 email · flusso: 1) visita sito → 2) video product tour → 3) lead magnet + prenota demo. Banner, logo e social integrati. Mancano solo i link reali (sito, video, download, prenota demo).</p>
+  </header>
+
+  <div class="toolbar">
+    <span>Vista:</span>
+    <button id="b-all" class="active" onclick="setView('all')">Tutte e 3</button>
+    <button id="b-1" onclick="setView('one',0)">1 · Visita sito</button>
+    <button id="b-2" onclick="setView('one',1)">2 · Video tour</button>
+    <button id="b-3" onclick="setView('one',2)">3 · Lead magnet + demo</button>
+    <span style="margin-left:16px;">Larghezza:</span>
+    <button id="b-desk" class="active" onclick="setWidth('desk')">Desktop</button>
+    <button id="b-mob" onclick="setWidth('mobile')">Mobile</button>
+  </div>
+
+  <div id="grid" class="grid">
+    <div class="card" data-idx="0">
+      <h2>Email 1</h2><span class="tag">CTA: visita il sito</span>
+      <iframe src="Email/01-visita-sito.html" title="Email 1"></iframe>
+    </div>
+    <div class="card" data-idx="1">
+      <h2>Email 2</h2><span class="tag">Video product tour</span>
+      <iframe src="Email/02-video-tour.html" title="Email 2"></iframe>
+    </div>
+    <div class="card" data-idx="2">
+      <h2>Email 3</h2><span class="tag">Lead magnet + prenota demo</span>
+      <iframe src="Email/03-lead-magnet-demo.html" title="Email 3"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const grid = document.getElementById('grid');
+    const cards = [...document.querySelectorAll('.card')];
+    function clearActive(ids){ ids.forEach(id=>document.getElementById(id).classList.remove('active')); }
+    function setView(mode, idx){
+      clearActive(['b-all','b-1','b-2','b-3']);
+      if(mode==='all'){
+        grid.classList.remove('single');
+        cards.forEach(c=>c.style.display='');
+        document.getElementById('b-all').classList.add('active');
+      } else {
+        grid.classList.add('single');
+        cards.forEach(c=>c.style.display = (+c.dataset.idx===idx)?'':'none');
+        document.getElementById('b-'+(idx+1)).classList.add('active');
+      }
+    }
+    function setWidth(mode){
+      clearActive(['b-desk','b-mob']);
+      grid.classList.toggle('mobile', mode==='mobile');
+      document.getElementById(mode==='mobile'?'b-mob':'b-desk').classList.add('active');
+    }
+  </script>
+</body>
+</html>
